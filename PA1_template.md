@@ -11,7 +11,8 @@ output:
 
 At this part I load in the database, check variables and change the format of the date variable for further analysis.
 
-```{r load dataset, results='hide'}
+
+```r
 activ <- read.csv(unz("activity.zip", "activity.csv"))
 head(activ)
 table(activ$steps)
@@ -26,21 +27,38 @@ activ$date<-as.Date(activ$date, "%Y-%m-%d")
 
 For this part, first I clean the database from missing values, then I change it's format to be able to make a histogram which answers the question. Finally I make the plot, save it and take a look at the mean and median of steps.
 
-```{r first part of analysis 1, results='hide'}
+
+```r
 activ_nomiss<-na.omit(activ)
 head(activ_nomiss)
 x1<-tapply(activ_nomiss$steps,activ_nomiss$date,sum)
 ```
-```{r first part of analysis 2}
+
+```r
 hist(x1, main="Total number of steps taken each day", xlab="", xlim=c(0, 25000), breaks=10)
 ```
-```{r first part of analysis 3, results='hide'}
+
+![plot of chunk first part of analysis 2](figure/first part of analysis 2-1.png) 
+
+```r
 dev.copy(png, file="plot1.png")
 dev.off()
 ```
-```{r first part of analysis 4}
+
+```r
 mean(x1)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(x1)
+```
+
+```
+## [1] 10765
 ```
 
 
@@ -49,24 +67,48 @@ median(x1)
 
 From the previous cleaned dataset I make another reformatted version for answering this question, then I make and save a plot.
 
-```{r second part of analysis 1, results='hide'}
+
+```r
 x2<-tapply(activ_nomiss$steps,activ_nomiss$interval, mean)
 head(x2)
 ```
-```{r second part of analysis 2}
+
+```r
 plot(x2, main="Average number of steps taken each interval", xlab="interval", ylab="steps", type="l")
 ```
-```{r second part of analysis 3, results='hide'}
+
+![plot of chunk second part of analysis 2](figure/second part of analysis 2-1.png) 
+
+```r
 dev.copy(png, file="plot2.png")
 dev.off()
 ```
 
 Finally I look for the interval and date which contains the maximum number of steps on averege across all days.
 
-```{r second part of analysis 4}
+
+```r
 max(activ_nomiss$steps)
+```
+
+```
+## [1] 806
+```
+
+```r
 activ_nomiss$interval[activ_nomiss$steps==max(activ_nomiss$steps)]
+```
+
+```
+## [1] 615
+```
+
+```r
 activ_nomiss$date[activ_nomiss$steps==max(activ_nomiss$steps)]
+```
+
+```
+## [1] "2012-11-27"
 ```
 
 
@@ -75,7 +117,8 @@ activ_nomiss$date[activ_nomiss$steps==max(activ_nomiss$steps)]
 
 In this part I clean the original dataset from missing values by inputing new ones from interval means. See the code below.
 
-```{r third part of analysis 1, results='hide'}
+
+```r
 table(is.na(activ$steps))
 activ$mean<- by(activ$steps, activ$interval, FUN=mean, na.rm=TRUE)
 activ$steps[is.na(activ$steps)==TRUE]<-activ$mean[is.na(activ$steps)==TRUE]
@@ -84,17 +127,33 @@ activ<-activ[, 1:3]
 
 Then I remake the histogram from the first part with the new dataset, and take a look at new mean and median.
 
-```{r third part of analysis 2}
+
+```r
 x3<-tapply(activ$steps,activ$date,sum)
 hist(x3, main="Total number of steps taken each day", xlab="", xlim=c(0, 25000), breaks=10)
 ```
-```{r third part of analysis 3, results='hide'}
+
+![plot of chunk third part of analysis 2](figure/third part of analysis 2-1.png) 
+
+```r
 dev.copy(png, file="plot3.png")
 dev.off()
 ```
-```{r third part of analysis 4}
+
+```r
 mean(x3)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(x3)
+```
+
+```
+## [1] 10766.19
 ```
 
 We can see that the results not differ too much compared to the uncleaned version of the data.
@@ -105,7 +164,8 @@ We can see that the results not differ too much compared to the uncleaned versio
 
 At this part I replace the date variable with "weekday" and "weekend" categories, then reformat the database and make a plot which shows the difference for taken steps by the two category.
 
-```{r fourth part of analysis 1, results='hide'}
+
+```r
 Sys.setlocale("LC_TIME", "English")
 activ$date<-as.Date(activ$date, "%Y-%m-%d")
 activ$day<-weekdays(activ$date)
@@ -117,19 +177,30 @@ activ$day[activ$day=="Thursday"]<-"weekday"
 activ$day[activ$day=="Tuesday"]<-"weekday"
 activ$day[activ$day=="Wednesday"]<-"weekday"
 ```
-```{r fourth part of analysis 2}
-table(activ$day)
 
+```r
+table(activ$day)
+```
+
+```
+## 
+## weekday weekend 
+##   12960    4608
+```
+
+```r
 x4<-aggregate(activ$steps, by=list(activ$interval, activ$day), FUN=mean)
 
 par(mfrow=c(2, 1), mar=c(5, 4, 2, 1))
 with(subset(x4, Group.2=="weekday"), plot(Group.1, x, type="l", main="weekday", xlab="", ylab="steps"))
 with(subset(x4, Group.2=="weekend"), plot(Group.1, x, type="l", main="weekend", xlab="interval", ylab="steps"))
 ```
-```{r fourth part of analysis 3, results='hide'}
+
+![plot of chunk fourth part of analysis 2](figure/fourth part of analysis 2-1.png) 
+
+```r
 dev.copy(png, file="plot4.png")
 dev.off()
-
 ```
 
 
