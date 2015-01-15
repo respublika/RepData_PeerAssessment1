@@ -24,7 +24,7 @@ activ$date<-as.Date(activ$date, "%Y-%m-%d")
 
 ## What is mean total number of steps taken per day?
 
-For this part, first I clean the database from missing values, then I change it's format to be able to make a histogram which answers the question. Finally I make the plot, save it and take a look at the mean and median of steps.
+For this part, first I clean the database from missing values, then I change it's format to be able to make a histogram which answers the question. Finally I make the plot and take a look at the mean and median of steps.
 
 ```{r first part of analysis 1, results='hide'}
 activ_nomiss<-na.omit(activ)
@@ -33,12 +33,7 @@ x1<-tapply(activ_nomiss$steps,activ_nomiss$date,sum)
 ```
 ```{r first part of analysis 2}
 hist(x1, main="Total number of steps taken each day", xlab="", xlim=c(0, 25000), breaks=10)
-```
-```{r first part of analysis 3, results='hide'}
-dev.copy(png, file="plot1.png")
-dev.off()
-```
-```{r first part of analysis 4}
+
 mean(x1)
 median(x1)
 ```
@@ -47,7 +42,7 @@ median(x1)
 
 ## What is the average daily activity pattern?
 
-From the previous cleaned dataset I make another reformatted version for answering this question, then I make and save a plot.
+From the previous cleaned dataset I make another reformatted version for answering this question, then I make a plot.
 
 ```{r second part of analysis 1, results='hide'}
 x2<-tapply(activ_nomiss$steps,activ_nomiss$interval, mean)
@@ -56,14 +51,10 @@ head(x2)
 ```{r second part of analysis 2}
 plot(x2, main="Average number of steps taken each interval", xlab="interval", ylab="steps", type="l")
 ```
-```{r second part of analysis 3, results='hide'}
-dev.copy(png, file="plot2.png")
-dev.off()
-```
 
 Finally I look for the interval and date which contains the maximum number of steps on averege across all days.
 
-```{r second part of analysis 4}
+```{r second part of analysis 3}
 max(activ_nomiss$steps)
 activ_nomiss$interval[activ_nomiss$steps==max(activ_nomiss$steps)]
 activ_nomiss$date[activ_nomiss$steps==max(activ_nomiss$steps)]
@@ -88,11 +79,7 @@ Then I remake the histogram from the first part with the new dataset, and take a
 x3<-tapply(activ$steps,activ$date,sum)
 hist(x3, main="Total number of steps taken each day", xlab="", xlim=c(0, 25000), breaks=10)
 ```
-```{r third part of analysis 3, results='hide'}
-dev.copy(png, file="plot3.png")
-dev.off()
-```
-```{r third part of analysis 4}
+```{r third part of analysis 3}
 mean(x3)
 median(x3)
 ```
@@ -126,10 +113,6 @@ par(mfrow=c(2, 1), mar=c(5, 4, 2, 1))
 with(subset(x4, Group.2=="weekday"), plot(Group.1, x, type="l", main="weekday", xlab="", ylab="steps"))
 with(subset(x4, Group.2=="weekend"), plot(Group.1, x, type="l", main="weekend", xlab="interval", ylab="steps"))
 ```
-```{r fourth part of analysis 3, results='hide'}
-dev.copy(png, file="plot4.png")
-dev.off()
 
-```
 
 

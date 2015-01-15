@@ -25,7 +25,7 @@ activ$date<-as.Date(activ$date, "%Y-%m-%d")
 
 ## What is mean total number of steps taken per day?
 
-For this part, first I clean the database from missing values, then I change it's format to be able to make a histogram which answers the question. Finally I make the plot, save it and take a look at the mean and median of steps.
+For this part, first I clean the database from missing values, then I change it's format to be able to make a histogram which answers the question. Finally I make the plot and take a look at the mean and median of steps.
 
 
 ```r
@@ -39,11 +39,6 @@ hist(x1, main="Total number of steps taken each day", xlab="", xlim=c(0, 25000),
 ```
 
 ![plot of chunk first part of analysis 2](figure/first part of analysis 2-1.png) 
-
-```r
-dev.copy(png, file="plot1.png")
-dev.off()
-```
 
 ```r
 mean(x1)
@@ -65,7 +60,7 @@ median(x1)
 
 ## What is the average daily activity pattern?
 
-From the previous cleaned dataset I make another reformatted version for answering this question, then I make and save a plot.
+From the previous cleaned dataset I make another reformatted version for answering this question, then I make a plot.
 
 
 ```r
@@ -78,11 +73,6 @@ plot(x2, main="Average number of steps taken each interval", xlab="interval", yl
 ```
 
 ![plot of chunk second part of analysis 2](figure/second part of analysis 2-1.png) 
-
-```r
-dev.copy(png, file="plot2.png")
-dev.off()
-```
 
 Finally I look for the interval and date which contains the maximum number of steps on averege across all days.
 
@@ -134,11 +124,6 @@ hist(x3, main="Total number of steps taken each day", xlab="", xlim=c(0, 25000),
 ```
 
 ![plot of chunk third part of analysis 2](figure/third part of analysis 2-1.png) 
-
-```r
-dev.copy(png, file="plot3.png")
-dev.off()
-```
 
 ```r
 mean(x3)
@@ -198,9 +183,5 @@ with(subset(x4, Group.2=="weekend"), plot(Group.1, x, type="l", main="weekend", 
 
 ![plot of chunk fourth part of analysis 2](figure/fourth part of analysis 2-1.png) 
 
-```r
-dev.copy(png, file="plot4.png")
-dev.off()
-```
 
 
